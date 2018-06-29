@@ -1,26 +1,62 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <v-app dark>
+      <v-navigation-drawer fixed clipped v-model="drawer" app>
+        <v-list dense>
+          <v-list-tile v-for="item in items" :key="item.text" :to="{ name: item.to }" exact>
+            <v-list-tile-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                {{ item.text }}
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-navigation-drawer>
+      <v-toolbar color="secondary" dense fixed clipped-left app>
+        <v-toolbar-side-icon @click.stop="drawer = !drawer" icon="mdi-menu"></v-toolbar-side-icon>
+        <v-icon class="mx-3">fa-youtube</v-icon>
+        <v-toolbar-title class="mr-5 align-center">
+          <span class="title">Screenshots</span>
+        </v-toolbar-title>
+      </v-toolbar>
+      <v-content>
+        <v-container fluid fill-height>
+          <router-view></router-view>
+        </v-container>
+      </v-content>
+    </v-app>
   </div>
 </template>
 
-<style lang="stylus">
-#app
-  font-family 'Avenir', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
+<script lang="ts">
+  import { Component, Vue } from 'vue-property-decorator'
 
-#nav
-  padding 30px
-  a
-    font-weight bold
-    color #2c3e50
-    &.router-link-exact-active
-      color #42b983
-</style>
+  @Component
+  export default class App extends Vue {
+    protected drawer: boolean = true
+    protected items: object[] = [
+      {
+        icon: 'mdi-view-dashboard',
+        text: 'Dashboard',
+        to: 'dashboard'
+      },
+      {
+        icon: 'mdi-monitor-cellphone',
+        text: 'Browse Screen Sizes',
+        to: 'browse'
+      },
+      {
+        icon: 'mdi-settings',
+        text: 'Settings',
+        to: 'settings'
+      },
+    ]
+
+    created () {
+      this.$vuetify.icons.menu = 'mdi-menu'
+    }
+  }
+</script>

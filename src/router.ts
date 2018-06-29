@@ -1,21 +1,25 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Home from './views/Home.vue';
-import About from './views/About.vue';
+import Vue from 'vue'
+import Router from 'vue-router'
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      name: 'dashboard',
+      component: () => import('@/views/Dashboard.vue'),
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About,
+      path: '/browse',
+      name: 'browse',
+      component: () => import('@/views/Browse.vue'),
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/views/Settings.vue'),
     },
   ],
-});
+})
